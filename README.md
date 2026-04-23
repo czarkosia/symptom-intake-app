@@ -1,0 +1,1 @@
+# symptom-intake-app
