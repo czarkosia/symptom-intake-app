@@ -82,11 +82,14 @@ class InfermedicaClient:
                 response.raise_for_status()  # Wyrzuci błąd dla statusów 4xx i 5xx
                 return response.json()
             except httpx.HTTPStatusError as e:
-                logger.error(f"Infermedica API Error: {e.response.status_code} - {e.response.text}")
-                raise
+                msg = f"Infermedica API Error: {e.response.status_code} - {e.response.text}"
+                raise InfermedicaIntegrationError(msg) from e
             except httpx.RequestError as e:
-                logger.error(f"Network error while calling Infermedica: {str(e)}")
-                raise
+                msg = f"Network error while calling Infermedica: {str(e)}"
+                raise InfermedicaIntegrationError(msg) from e
+            except Exception as e:
+                msg = f"Unexpected Infermedica API Error: {str(e)}"
+                raise InfermedicaIntegrationError(msg) from e
 
     async def parse(self, data: ParseRequest) -> ParseResponse:
         """
@@ -133,3 +136,9 @@ class InfermedicaClient:
 
         raw_response = await self._post("/triage", payload)
         return TriageResponse(**raw_response)
+
+class InfermedicaIntegrationError(Exception):
+    """
+    Error raised after catching Infermedica API errors.
+    """
+    pass
