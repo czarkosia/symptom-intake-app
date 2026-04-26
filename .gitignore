@@ -7,7 +7,8 @@ venv/
 ENV/
 env/
 .env
-db.sqlite3
+*.db
+*.db.sqlite3
 .pytest_cache/
 
 # Frontend
@@ -50,10 +51,5 @@ __screenshots__/
 # Vite
 *.timestamp-*-*.mjs
 
-# Database
-.db
-
 # Tools / System
-.DS_Store
-.vscode/
-.idea/
+.vscode
