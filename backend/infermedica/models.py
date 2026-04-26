@@ -1,7 +1,7 @@
 from typing import List, Optional, Dict
 from pydantic import BaseModel, Field
 
-from enums import Sex, AgeUnit, ChoiceId, TriageLevel
+from infermedica.enums import Sex, AgeUnit, ChoiceId, TriageLevel
 
 class Age(BaseModel):
     value: int = Field(..., ge=0, le=130, description="Wiek pacjenta")
@@ -32,7 +32,7 @@ class QuestionItem(BaseModel):
 class Question(BaseModel):
     type: str
     text: str
-    extras: Dict[str, str]
+    extras: Optional[Dict[str, str]]
     items: List[QuestionItem]
 
 class Condition(BaseModel):
