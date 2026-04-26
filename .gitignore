@@ -50,6 +50,8 @@ __screenshots__/
 # Vite
 *.timestamp-*-*.mjs
 
+# Database
+.db
 
 # Tools / System
 .DS_Store

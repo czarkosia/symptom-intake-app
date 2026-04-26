@@ -33,6 +33,7 @@ class FinalResponse(BaseModel):
     conditions: List[Condition]
 
 class ResultResponse(BaseModel):
+    interview_id: str
     is_finished: bool
     final_response: Optional[FinalResponse] = None
     question_response: Optional[QuestionResponse] = None
