@@ -1,12 +1,10 @@
 <script setup>
 import Button from 'primevue/button'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
 
-const goHome = () => {
-  router.push('/')
-}
+// TODO: navigate to root page
+const goHome = () => {}
+
 </script>
 
 <template>
