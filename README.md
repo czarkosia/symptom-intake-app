@@ -20,19 +20,29 @@ This monorepo contains:
 ## Requirements
 
 In order to run the project, make sure you have:
+- Infermedica API credentials
 - [Docker](https://www.docker.com/) with Docker Compose
-- Python 3.10+ 
-- Node.js 18+
+- Python 3.10+ (only for local development)
+- Node.js 18+ (only for local development)
 
 ---
 
 ## Environmental variables
 
-Before running the application, cope .env variables from .env.example files:
+Before running the application, cope environmental variables from .env.example files:
 
 ```bash
-# Dla backendu
+# Backend (setting infermedica credentials required)
 cp backend/.env.example backend/.env
 
-# Dla frontendu
+# Frontend (optional when using docker command)
 cp frontend/.env.example frontend/.env
+```
+
+## Running application
+
+In order to start full-stack application with a single command, run:
+
+```bash
+docker compose up --build
+```
