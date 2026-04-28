@@ -29,6 +29,7 @@ const baseUrl = import.meta.env.VITE_BACKEND_URI;
 
 /**
  * @typedef {Object} EvidenceSummaryItem
+ * @property {uuid} interview_id
  * @property {string} item_id
  * @property {string} choice_id
  */
