@@ -9,6 +9,10 @@ const props = defineProps({
   questionData: {
     type: Object,
     required: true
+  },
+  interviewId: {
+    type: String,
+    required: true
   }
 })
 
@@ -29,6 +33,7 @@ const submitAnswer = async () => {
 
   try {
     const payload = {
+      interview_id: props.interviewId,
       item_id: props.questionData.item_id,
       choice_id: selectedChoice.value
     }
