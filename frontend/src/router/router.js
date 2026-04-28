@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import InterviewStart from '../components/Start.vue'
+import Interview from "@/pages/Interview.vue";
 
 const routes = [
   {
     path: '/',
     name: 'Start',
-    component: InterviewStart
+    component: Interview
   },
   {
     path: '/:pathMatch(.*)*',
