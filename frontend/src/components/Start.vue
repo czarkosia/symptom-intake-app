@@ -39,7 +39,7 @@ const submitInterview = async () => {
 
   isLoading.value = true
 
-  const baseUrl = import.meta.env.VITE_BACKEND_URL;
+  const baseUrl = import.meta.env.VITE_BACKEND_URI;
   try {
     const response = await fetch(`${baseUrl}/api/v1/interview/start`, {
       method: 'POST',
