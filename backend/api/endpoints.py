@@ -25,10 +25,9 @@ async def start(
 ) -> ResultResponse:
     return await service.start_interview(request)
 
-@router.post("/{interview_id}/answer")
+@router.post("/answer")
 async def answer(
-    interview_id: str,
     request: AnswerRequest,
     service: InterviewService = Depends(get_interview_service)
 ) -> ResultResponse:
-    return await service.process_answer(interview_id, request)
+    return await service.process_answer(request)

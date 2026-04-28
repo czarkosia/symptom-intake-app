@@ -1,3 +1,4 @@
+import uuid
 from typing import List, Optional
 from pydantic import BaseModel, Field
 from infermedica.enums import Sex, ChoiceId, TriageLevel, AgeUnit
@@ -15,6 +16,7 @@ class StartRequest(BaseModel):
     text: str
 
 class AnswerRequest(BaseModel):
+    interview_id: uuid.UUID
     item_id: str
     choice_id: ChoiceId
 
@@ -33,7 +35,7 @@ class FinalResponse(BaseModel):
     conditions: List[Condition]
 
 class ResultResponse(BaseModel):
-    interview_id: str
+    interview_id: uuid.UUID
     is_finished: bool
     final_response: Optional[FinalResponse] = None
     question_response: Optional[QuestionResponse] = None
