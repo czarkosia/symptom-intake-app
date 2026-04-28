@@ -8,6 +8,7 @@ import Button from 'primevue/button'
 import Message from 'primevue/message'
 
 import { AGE_UNITS, SEX_OPTIONS } from "@/const/demographics.js";
+import {startInterviewCall} from "@/api/api.js";
 
 const emit = defineEmits(['started'])
 
@@ -41,25 +42,10 @@ const submitInterview = async () => {
 
   const baseUrl = import.meta.env.VITE_BACKEND_URI;
   try {
-    const response = await fetch(`${baseUrl}/api/v1/interview/start`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form)
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      throw new Error(errorData.detail || 'Internal server error.')
-    }
-
-    const data = await response.json()
-    console.log("Response:", data)
+    const data = await startInterviewCall(form)
     emit('started', data)
 
   } catch (error) {
-    console.error("Request error:", error)
     errorMessage.value = error.message || 'Connection failed.'
   } finally {
     isLoading.value = false

@@ -1,70 +1,68 @@
 <script setup>
+import { ref } from "vue";
 import Button from 'primevue/button'
+import Message from 'primevue/message'
 import MainLayout from "@/components/layouts/MainLayout.vue";
-import {ref} from "vue";
+import { answerQuestionCall } from "@/api/api.js";
 
-const answered = defineEmits(['answered'])
+const props = defineProps({
+  questionData: {
+    type: Object,
+    required: true
+  }
+})
 
-const questionText = ref("Do you have any of these symptoms?")
-const symptoms = ref([
-  { id: 's_1193', name: 'Strong headache' },
-  { id: 's_1194', name: 'Dizziness' }
-])
+const emit = defineEmits(['answered'])
 
-const answers = ref({})
+const selectedChoice = ref(null)
+const isLoading = ref(false)
+const errorMessage = ref('')
 
-const setAnswer = (itemId, choice) => {
-  answers[itemId] = choice
-}
-
-const submitAnswers = async () => {
-  const answeredCount = Object.keys(answers).length
-  if (answeredCount < symptoms.value.length) {
-    alert("Please answer all the questions before you submit anything.")
+const submitAnswer = async () => {
+  if (!selectedChoice.value) {
+    errorMessage.value = "Please select an answer."
     return
   }
 
-  console.log("Zebrane odpowiedzi:", answers.value)
-  // TODO: Send patients response to backend
+  errorMessage.value = ''
+  isLoading.value = true
 
-  // router.push('/result') // Tymczasowe przejście do wyników
+  try {
+    const payload = {
+      item_id: props.questionData.item_id,
+      choice_id: selectedChoice.value
+    }
+
+    const data = await answerQuestionCall(payload)
+    emit('answered', data)
+
+  } catch (error) {
+    console.error("Request error:", error)
+    errorMessage.value = error.message || 'Connection failed.'
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
 <template>
   <MainLayout>
     <template #title>
-      {{ questionText }}
+      {{ questionData.question_text }}
     </template>
 
     <template #content>
       <div class="flex flex-col gap-6">
 
-        <div v-for="item in symptoms" :key="item.id" class="flex flex-col gap-3 pb-4 border-b border-gray-100 last:border-0">
-          <p class="font-semibold text-gray-800 text-lg">{{ item.name }}</p>
+        <div class="flex flex-col gap-4 pb-4">
 
-          <div class="flex flex-wrap gap-2 sm:flex-nowrap">
+          <div class="flex flex-col sm:flex-row flex-wrap gap-3 justify-center mt-2">
             <Button
-              label="Yes"
-              icon="pi pi-check"
-              :outlined="answers[item.id] !== 'present'"
-              @click="setAnswer(item.id, 'present')"
-              class="flex-1"
-            />
-            <Button
-              label="No"
-              icon="pi pi-times"
-              :outlined="answers[item.id] !== 'absent'"
-              @click="setAnswer(item.id, 'absent')"
-              severity="danger"
-              class="flex-1"
-            />
-            <Button
-              label="I don't know"
-              icon="pi pi-question"
-              :outlined="answers[item.id] !== 'unknown'"
-              @click="setAnswer(item.id, 'unknown')"
-              severity="secondary"
+              v-for="choice in questionData.choices"
+              :key="choice.id"
+              :label="choice.label"
+              :outlined="selectedChoice !== choice.id"
+              @click="selectedChoice = choice.id"
               class="flex-1"
             />
           </div>
@@ -72,10 +70,15 @@ const submitAnswers = async () => {
 
         <Button
           label="Submit answer"
-          class="w-full mt-4"
+          class="w-full mt-2 !bg-brand-primary hover:!bg-brand-dark text-white font-bold py-3 rounded-xl transition-colors !border-none"
           size="large"
-          @click="submitAnswers"
+          :loading="isLoading"
+          @click="submitAnswer"
         />
+
+        <Message v-if="errorMessage" severity="error" :closable="false" class="mt-2">
+          {{ errorMessage }}
+        </Message>
 
       </div>
     </template>
