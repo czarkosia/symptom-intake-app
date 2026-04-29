@@ -1,0 +1,16 @@
+# Test your FastAPI endpoints
+
+POST http://127.0.0.1:8000/api/v1/interview/start
+Accept: application/json
+
+{
+    age: 23,
+    sex: female,
+    text: I have had a strong headache since yesterday
+}
+###
+
+GET http://127.0.0.1:8000/hello/User
+Accept: application/json
+
+###

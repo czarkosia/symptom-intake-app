@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #0062FF;
+  --color-brand-dark: #002B61;
+  --color-status-success: #15A04F;
+  --color-status-warning: #F39200;
+  --color-status-danger: #E30613;
+  --color-medical-surface: #F4F7FA;
+}
+
+body {
+  background-color: var(--color-medical-surface);
+  color: var(--color-brand-dark);
+
+  /* Ładne fonty z Twojego wcześniejszego pliku */
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
